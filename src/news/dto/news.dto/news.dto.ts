@@ -1,7 +1,8 @@
-import { Section } from '../../interfaces/news/section.interface';
-
 export class NewsDto {
-  section: Section;
+  section: {
+    name: string;
+    icon: string;
+  };
   images: string[];
   title: string;
   subtitle: string;

@@ -14,7 +14,6 @@ import { NewsService } from './services/news/news.service';
 @Controller('news')
 export class NewsController {
   constructor(private readonly newsService: NewsService) {}
-
   @Get(':id')
   async findById(@Param('id') id: string) {
     return this.newsService.findById(id);
