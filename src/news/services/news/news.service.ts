@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { News } from '../../interfaces/news/news.interface';
 import { NewsDto } from '../../dto/news.dto/news.dto';
+import { Section } from '../../interfaces/news/section.interface';
 
 @Injectable()
 export class NewsService {
@@ -11,8 +12,8 @@ export class NewsService {
   constructor(@InjectModel('News') private newsModel: Model<News>) {}
 
   /*FindById*/
-  async findById(id: string): Promise<News> {
-    const news = await this.newsModel.findById(id).exec();
+  async findById(_id: string): Promise<News> {
+    const news = await this.newsModel.findById(_id).exec();
     if (!news) {
       throw new NotFoundException('Noticia no encontrada con ese Id');
     }
@@ -45,9 +46,9 @@ export class NewsService {
   }
 
   /*Update*/
-  async update(id: string, updateNewsDto: NewsDto): Promise<News> {
+  async update(_id: string, updateNewsDto: NewsDto): Promise<News> {
     const news = await this.newsModel
-      .findByIdAndUpdate(id, updateNewsDto, { new: true })
+      .findByIdAndUpdate(_id, updateNewsDto, { new: true })
       .exec();
     if (!news) {
       throw new NotFoundException('Noticia no encontrada con ese Id');
@@ -62,15 +63,17 @@ export class NewsService {
       throw new NotFoundException('Noticia no encontrada con ese Id');
     }
   }
-
   /*AllSections*/
-  async getAllSections(): Promise<string[]> {
-    const sections = await this.newsModel.distinct('section.name').exec();
-    return sections.map((section: any) => section as string);
+
+  async getAllSections(): Promise<Section[]> {
+    return this.newsModel.find().distinct('section').exec();
   }
 
-  /*NewsBySection*/
   async getNewsBySection(section: string): Promise<News[]> {
     return this.newsModel.find({ section }).exec();
+  }
+
+  getSectionById() {
+    return [];
   }
 }

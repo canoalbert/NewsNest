@@ -1,9 +1,7 @@
+import { Section } from './section.interface';
+
 export interface News {
-  section: {
-    name: string;
-    icon: string;
-  };
-  _id: string;
+  section: Section;
   images: string[];
   title: string;
   subtitle: string;

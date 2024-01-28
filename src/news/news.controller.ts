@@ -14,8 +14,8 @@ import { NewsService } from './services/news/news.service';
 @Controller('news')
 export class NewsController {
   constructor(private readonly newsService: NewsService) {}
-  @Get(':id')
-  async findById(@Param('id') id: string) {
+  @Get(':_id')
+  async findById(@Param('_id') id: string) {
     return this.newsService.findById(id);
   }
 
@@ -34,23 +34,13 @@ export class NewsController {
     return this.newsService.create(createNewsDto);
   }
 
-  @Put(':id')
-  async update(@Param('id') id: string, @Body() updateNewsDto: NewsDto) {
+  @Put(':_id')
+  async update(@Param('_id') id: string, @Body() updateNewsDto: NewsDto) {
     return this.newsService.update(id, updateNewsDto);
   }
 
-  @Delete(':id')
-  async delete(@Param('id') id: string) {
+  @Delete(':_id')
+  async delete(@Param('_id') id: string) {
     return this.newsService.delete(id);
-  }
-
-  @Get('sections')
-  async getAllSections() {
-    return this.newsService.getAllSections();
-  }
-
-  @Get('sections/:section')
-  async getNewsBySection(@Param('section') section: string) {
-    return this.newsService.getNewsBySection(section);
   }
 }
