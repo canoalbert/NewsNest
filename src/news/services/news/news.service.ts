@@ -10,7 +10,6 @@ export class NewsService {
   private newsDto: NewsDto;
 
   constructor(@InjectModel('News') private newsModel: Model<News>) {}
-
   /*FindById*/
   async findById(_id: string): Promise<News> {
     const news = await this.newsModel.findById(_id).exec();
@@ -20,9 +19,13 @@ export class NewsService {
     return news;
   }
 
+  async findByAuthor(author: string): Promise<News[]> {
+    return this.newsModel.find({ author }).exec();
+  }
+
   /*FindByAuthorOrTitle*/
   async findByTitleOrAuthor(query: string): Promise<News[]> {
-    const news = await this.newsModel
+    return await this.newsModel
       .find({
         $or: [
           { title: { $regex: query, $options: 'i' } },
@@ -30,7 +33,6 @@ export class NewsService {
         ],
       })
       .exec();
-    return news;
   }
 
   /*FindAll*/

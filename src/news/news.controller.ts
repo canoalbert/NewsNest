@@ -20,6 +20,10 @@ export class NewsController {
   }
 
   @Get('search')
+  async findByAuthor(@Query('author') author: string) {
+    return this.newsService.findByAuthor(author);
+  }
+  @Get('search')
   async findByTitleOrAuthor(@Query('query') query: string) {
     return this.newsService.findByTitleOrAuthor(query);
   }
