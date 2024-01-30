@@ -6,7 +6,7 @@ import {
   Param,
   Put,
   Delete,
-  Query,
+  Query, Patch,
 } from '@nestjs/common';
 import { NewsDto } from './dto/news.dto/news.dto';
 import { NewsService } from './services/news/news.service';
@@ -23,9 +23,9 @@ export class NewsController {
   async findByAuthor(@Query('author') author: string) {
     return this.newsService.findByAuthor(author);
   }
-  @Get('search')
-  async findByTitleOrAuthor(@Query('query') query: string) {
-    return this.newsService.findByTitleOrAuthor(query);
+  @Get('search/:query')
+  async findByTitleOrAuthor(@Param('query') query: string) {
+    return await this.newsService.findByTitleOrAuthor(query);
   }
 
   @Get()
@@ -38,7 +38,7 @@ export class NewsController {
     return this.newsService.create(createNewsDto);
   }
 
-  @Put(':_id')
+  @Patch(':_id')
   async update(@Param('_id') id: string, @Body() updateNewsDto: NewsDto) {
     return this.newsService.update(id, updateNewsDto);
   }

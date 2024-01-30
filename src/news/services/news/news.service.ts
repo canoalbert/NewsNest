@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { News } from '../../interfaces/news/news.interface';
 import { NewsDto } from '../../dto/news.dto/news.dto';
 import { Section } from '../../interfaces/news/section.interface';
+import {filter} from "rxjs";
 
 @Injectable()
 export class NewsService {
@@ -25,11 +26,12 @@ export class NewsService {
 
   /*FindByAuthorOrTitle*/
   async findByTitleOrAuthor(query: string): Promise<News[]> {
+    const regex = new RegExp(query, 'i')
     return await this.newsModel
       .find({
         $or: [
-          { title: { $regex: query, $options: 'i' } },
-          { author: { $regex: query, $options: 'i' } },
+          { title: { $regex: regex } },
+          { author: { $regex: regex } },
         ],
       })
       .exec();
