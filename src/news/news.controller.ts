@@ -4,9 +4,9 @@ import {
   Post,
   Body,
   Param,
-  Put,
   Delete,
-  Query, Patch,
+  Query,
+  Patch,
 } from '@nestjs/common';
 import { NewsDto } from './dto/news.dto/news.dto';
 import { NewsService } from './services/news/news.service';
@@ -36,6 +36,11 @@ export class NewsController {
   @Post()
   async create(@Body() createNewsDto: NewsDto) {
     return this.newsService.create(createNewsDto);
+  }
+
+  @Get('section/:sectionName')
+  async getNewsBySection(@Param('sectionName') sectionName: string) {
+    return this.newsService.getNewsBySection(sectionName);
   }
 
   @Patch(':_id')
